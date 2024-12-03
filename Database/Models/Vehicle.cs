@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.Models;
 
-public class Vehicle
+public abstract class Vehicle
 {
     public int Id { get; set; }
 
@@ -11,9 +11,9 @@ public class Vehicle
     [MaxLength(50)]
     public required string Name { get; set; }
 
-    public float MaxSpeed { get; set; }
+    public float TopSpeed { get; set; }
 
-    public int Occupancy { get; set; }
+    public int MaxOccupants { get; set; }
 
     [Range(0, 8000)]
     public int CharacterLevelRequirement { get; set; }

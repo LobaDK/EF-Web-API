@@ -9,6 +9,15 @@ public class Context(DbContextOptions dbContextOptions) : DbContext(dbContextOpt
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {   
+        modelBuilder.Entity<Aircraft>()
+            .ToTable("Aircrafts");
+        
+        modelBuilder.Entity<Landcraft>()
+            .ToTable("Landcrafts");
+        
+        modelBuilder.Entity<Seacraft>()
+            .ToTable("Seacrafts");
+
         modelBuilder.Entity<Building>()
             .HasIndex(b => b.Name)
             .IsUnique();
@@ -39,9 +48,9 @@ public class Context(DbContextOptions dbContextOptions) : DbContext(dbContextOpt
 
     public required DbSet<Building> Buildings { get; set; }
     public required DbSet<Clothing> Clothing { get; set; }
-    public required DbSet<Helicopter> Helicopters { get; set; }
-    public required DbSet<LandVehicle> LandVehicles { get; set; }
-    public required DbSet<Plane> Planes { get; set; }
+    public required DbSet<Landcraft> LandVehicles { get; set; }
+    public required DbSet<Aircraft> Helicopters { get; set; }
+    public required DbSet<Seacraft> Seacrafts { get; set; }
     public required DbSet<PlayerCharacter> PlayerCharacters { get; set; }
     public required DbSet<User> Users { get; set; }
     public required DbSet<Vehicle> Vehicles { get; set; }

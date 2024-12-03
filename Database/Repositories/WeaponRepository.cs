@@ -138,8 +138,7 @@ public class SQLWeaponRepository(Context context) : IWeaponRepository
     public async Task<(Weapon, PlayerCharacter)> PurchaseWeaponAsync(int weaponId, int characterId)
     {
         Weapon weapon = await GetWeaponByIdAsync(weaponId);
-        // TODO: Swap this with a call to the character repository once it's implemented
-        PlayerCharacter character = await _context.PlayerCharacters.FindAsync(characterId) ?? throw new EntryNotFoundException("Character not found.");
+        PlayerCharacter character = await new SQLPlayerCharacterRepository(_context).GetPlayerCharacterByIdAsync(characterId);
 
         if (character.Money < weapon.Price)
         {

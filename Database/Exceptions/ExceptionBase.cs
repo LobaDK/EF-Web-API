@@ -64,3 +64,18 @@ public class InsufficientFundsException : Exception
     {
     }
 }
+
+public class CharacterCreationLimitReachedException : Exception
+{
+    public CharacterCreationLimitReachedException()
+    {
+    }
+
+    public CharacterCreationLimitReachedException(string message) : base(message)
+    {
+    }
+
+    public CharacterCreationLimitReachedException(string message, Exception innerException) : base(message, innerException)
+    {
+    }
+}

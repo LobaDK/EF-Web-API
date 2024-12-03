@@ -11,7 +11,7 @@ public interface IClothingRepository
     /// Asynchronously retrieves all clothing items asynchronously.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains a list of clothing items.</returns>
-    Task<List<Clothing>> GetClothingAsync();
+    public Task<List<Clothing>> GetClothingAsync();
 
     /// <summary>
     /// Asynchronously retrieves a clothing item by its ID asynchronously.
@@ -19,7 +19,7 @@ public interface IClothingRepository
     /// <param name="id">The ID of the clothing item.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the clothing item.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the clothing item is not found.</exception>
-    Task<Clothing> GetClothingByIdAsync(int id);
+    public Task<Clothing> GetClothingByIdAsync(int id);
 
     /// <summary>
     /// Asynchronously retrieves a clothing item by its name asynchronously.
@@ -27,14 +27,14 @@ public interface IClothingRepository
     /// <param name="name">The name of the clothing item.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the clothing item.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the clothing item is not found.</exception>
-    Task<Clothing> GetClothingByNameAsync(string name);
+    public Task<Clothing> GetClothingByNameAsync(string name);
 
     /// <summary>
     /// Asynchronously retrieves a list of clothing items by their color.
     /// </summary>
     /// <param name="color">The color of the clothing items.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a list of clothing items. Can be empty.</returns>
-    Task<List<Clothing>> GetClothingsByColorAsync(string color);
+    public Task<List<Clothing>> GetClothingsByColorAsync(string color);
 
     /// <summary>
     /// Asynchronously creates a new clothing item asynchronously.
@@ -42,7 +42,7 @@ public interface IClothingRepository
     /// <param name="clothing">The clothing item to create.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the created clothing item.</returns>
     /// <exception cref="EntryAlreadyExistsException">Thrown when a clothing item with the same name already exists.</exception>
-    Task<Clothing> CreateClothingAsync(Clothing clothing);
+    public Task<Clothing> CreateClothingAsync(Clothing clothing);
 
     /// <summary>
     /// Asynchronously updates an existing clothing item asynchronously.
@@ -51,7 +51,7 @@ public interface IClothingRepository
     /// <param name="clothing">The updated clothing item.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the updated clothing item.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the clothing item is not found.</exception>
-    Task<Clothing> UpdateClothingAsync(int id, Clothing clothing);
+    public Task<Clothing> UpdateClothingAsync(int id, Clothing clothing);
 
     /// <summary>
     /// Asynchronously deletes a clothing item by its ID asynchronously.
@@ -59,7 +59,7 @@ public interface IClothingRepository
     /// <param name="id">The ID of the clothing item to delete.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the deleted clothing item.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the clothing item is not found.</exception>
-    Task<Clothing> DeleteClothingAsync(int id);
+    public Task<Clothing> DeleteClothingAsync(int id);
 
     /// <summary>
     /// Asynchronously purchases a clothing item for a character asynchronously.
@@ -69,7 +69,7 @@ public interface IClothingRepository
     /// <returns>A task that represents the asynchronous operation. The task result contains the purchased <see cref="Clothing"/>  object.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the clothing item or character is not found.</exception>
     /// <exception cref="InsufficientFundsException">Thrown when the character does not have enough money to purchase the clothing item.</exception>
-    Task<(Clothing, PlayerCharacter)> PurchaseClothingAsync(int id, int characterId);
+    public Task<(Clothing, PlayerCharacter)> PurchaseClothingAsync(int id, int characterId);
 }
 
 public class SQLClothingRepository(Context context) : IClothingRepository
@@ -138,8 +138,7 @@ public class SQLClothingRepository(Context context) : IClothingRepository
     public async Task<(Clothing, PlayerCharacter)> PurchaseClothingAsync(int id, int characterId)
     {
         Clothing clothing = await GetClothingByIdAsync(id);
-            // TODO: Swap this with a call to the character repository once it's implemented
-        PlayerCharacter character = await _context.PlayerCharacters.FindAsync(characterId) ?? throw new EntryNotFoundException("Character not found.");
+        PlayerCharacter character = await new SQLPlayerCharacterRepository(_context).GetPlayerCharacterByIdAsync(characterId);
         
         
         if (character.Money < clothing.Price)

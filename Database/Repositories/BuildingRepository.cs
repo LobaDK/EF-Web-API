@@ -12,7 +12,7 @@ public interface IBuildingRepository
     /// Asynchronously retrieves a list of buildings from the database.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="Building"/> objects. Can be empty.</returns>
-    Task<List<Building>> GetBuildingsAsync();
+    public Task<List<Building>> GetBuildingsAsync();
 
     /// <summary>
     /// Asynchronously retrieves a building by its ID.
@@ -20,7 +20,7 @@ public interface IBuildingRepository
     /// <param name="id">The ID of the building to retrieve.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the <see cref="Building"/> object.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the building is not found.</exception>
-    Task<Building> GetBuildingByIdAsync(int id);
+    public Task<Building> GetBuildingByIdAsync(int id);
 
     /// <summary>
     /// Asynchronously retrieves a building by its name.
@@ -28,7 +28,7 @@ public interface IBuildingRepository
     /// <param name="name">The name of the building to retrieve.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the <see cref="Building"/> object.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the building is not found.</exception>
-    Task<Building> GetBuildingByNameAsync(string name);
+    public Task<Building> GetBuildingByNameAsync(string name);
 
     /// <summary>
     /// Asynchronously creates a new building in the database.
@@ -36,7 +36,7 @@ public interface IBuildingRepository
     /// <param name="building">The building to create.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the created <see cref="Building"/> object.</returns>
     /// <exception cref="EntryAlreadyExistsException">Thrown when a building with the same name already exists.</exception>
-    Task<Building> CreateBuildingAsync(Building building);
+    public Task<Building> CreateBuildingAsync(Building building);
 
     /// <summary>
     /// Asynchronously updates an existing building in the database.
@@ -45,7 +45,7 @@ public interface IBuildingRepository
     /// <param name="building">The updated building object.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the updated <see cref="Building"/> object.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the building is not found.</exception>
-    Task<Building> UpdateBuildingAsync(int id, Building building);
+    public Task<Building> UpdateBuildingAsync(int id, Building building);
 
     /// <summary>
     /// Asynchronously deletes a building from the database.
@@ -53,7 +53,7 @@ public interface IBuildingRepository
     /// <param name="id">The ID of the building to delete.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the deleted <see cref="Building"/> object.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the building is not found.</exception>
-    Task<Building> DeleteBuildingAsync(int id);
+    public Task<Building> DeleteBuildingAsync(int id);
 
     /// <summary>
     /// Asynchronously purchases a building for a character.
@@ -63,7 +63,7 @@ public interface IBuildingRepository
     /// <returns>A task that represents the asynchronous operation. The task result contains the purchased <see cref="Building"/> object and the <see cref="PlayerCharacter"/> object.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the building or character is not found.</exception>
     /// <exception cref="InsufficientFundsException">Thrown when the character does not have enough money to purchase the building.</exception>
-    Task<(Building, PlayerCharacter)> PurchaseBuildingAsync(int buildingId, int characterId);
+    public Task<(Building, PlayerCharacter)> PurchaseBuildingAsync(int buildingId, int characterId);
 }
 
 public class SQLBuildingRepository(Context context) : IBuildingRepository
@@ -129,8 +129,7 @@ public class SQLBuildingRepository(Context context) : IBuildingRepository
     public async Task<(Building, PlayerCharacter)> PurchaseBuildingAsync(int buildingId, int characterId)
     {
         Building building = await GetBuildingByIdAsync(buildingId);
-        // TODO: Swap this with a call to the character repository once it's implemented
-        PlayerCharacter character = await _context.PlayerCharacters.FindAsync(characterId) ?? throw new EntryNotFoundException("Character not found.");
+        PlayerCharacter character = await new SQLPlayerCharacterRepository(_context).GetPlayerCharacterByIdAsync(characterId);
 
         if (character.Money < building.Price)
         {
