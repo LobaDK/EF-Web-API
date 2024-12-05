@@ -120,8 +120,7 @@ public class SQLClothingRepository(Context context) : IClothingRepository
     {
         Clothing existingClothing = await GetClothingByIdAsync(id);
         
-        existingClothing = clothing;
-        _context.Entry(existingClothing).State = EntityState.Modified;
+        _context.Clothing.Update(existingClothing);
         await _context.SaveChangesAsync();
 
         return existingClothing;

@@ -7,15 +7,67 @@ namespace Database.Repositories;
 
 public interface IVehicleRepository
 {
+    /// <summary>
+    /// Asynchronously retrieves a list of vehicles from the database.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="Vehicle"/> objects. Can be empty.</returns>
     public Task<List<Vehicle>> GetVehiclesAsync();
+
+    /// <summary>
+    /// Asynchronously retrieves a vehicle by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the vehicle to retrieve.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the <see cref="Vehicle"/> object.</returns>
+    /// <exception cref="EntryNotFoundException">Thrown when the vehicle is not found.</exception>
     public Task<Vehicle> GetVehicleByIdAsync(int id);
+
+    /// <summary>
+    /// Asynchronously retrieves a list of vehicles by their name.
+    /// </summary>
+    /// <param name="name">The name of the vehicles to retrieve.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="Vehicle"/> objects. Can be empty.</returns>
     public Task<List<Vehicle>> GetVehiclesByNameAsync(string name);
-    public Task<List<Vehicle>> GetVehiclesByOwnerIdAsync(int ownerId);
-    public Task<Aircraft> CreateVehicleAsync(Aircraft aircraft);
-    public Task<Landcraft> CreateVehicleAsync(Landcraft landcraft);
-    public Task<Seacraft> CreateVehicleAsync(Seacraft seacraft);
+
+    /// <summary>
+    /// Asynchronously retrieves a list of vehicles by their type or class.
+    /// </summary>
+    /// <param name="typeOrClass">The type or class of the vehicles to retrieve.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="Vehicle"/> objects. Can be empty.</returns>
+    public Task<List<Vehicle>> GetVehiclesByTypeOrClassAsync(string typeOrClass);
+
+    /// <summary>
+    /// Asynchronously retrieves a list of vehicles by their owner's name.
+    /// </summary>
+    /// <param name="ownerName">The name of the owner to retrieve vehicles for.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="Vehicle"/> objects. Can be empty.</returns>
+    /// <exception cref="EntryAlreadyExistsException">Thrown when a vehicle with the same name already exists.</exception>
+    public Task<Vehicle> CreateVehicleAsync(Vehicle vehicle);
+
+    /// <summary>
+    /// Asynchronously updates an existing vehicle in the database.
+    /// </summary>
+    /// <param name="id">The ID of the vehicle to update.</param>
+    /// <param name="vehicle">The updated vehicle object.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the updated <see cref="Vehicle"/> object.</returns>
+    /// <exception cref="EntryNotFoundException">Thrown when the vehicle is not found.</exception>
     public Task<Vehicle> UpdateVehicleAsync(int id, Vehicle vehicle);
+    
+    /// <summary>
+    /// Asynchronously updates an existing vehicle in the database.
+    /// </summary>
+    /// <param name="id">The ID of the vehicle to update.</param>
+    /// <param name="vehicle">The updated vehicle object.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the updated <see cref="Vehicle"/> object.</returns>
+    /// <exception cref="EntryNotFoundException">Thrown when the vehicle is not found.</exception>
     public Task<Vehicle> DeleteVehicleAsync(int id);
+
+    /// <summary>
+    /// Asynchronously purchases a vehicle for a character.
+    /// </summary>
+    /// <param name="id">The ID of the vehicle to purchase.</param>
+    /// <param name="ownerId">The ID of the character purchasing the vehicle.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the purchased <see cref="Vehicle"/> object.</returns>
+    /// <exception cref="EntryNotFoundException">Thrown when the vehicle is not found.</exception>
     public Task<Vehicle> PurchaseVehicleAsync(int id, int ownerId);
 }
 
@@ -30,7 +82,7 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
 
     public async Task<Vehicle> GetVehicleByIdAsync(int id)
     {
-        return await _context.Vehicles.FindAsync(id) ?? throw new EntryNotFoundException("Vehicle not found");
+        return await _context.Vehicles.FindAsync(id) ?? throw new EntryNotFoundException($"Vehicle with ID {id} was not found.");
     }
 
     public async Task<List<Vehicle>> GetVehiclesByNameAsync(string name)
@@ -38,74 +90,35 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
         return await _context.Vehicles.Where(v => v.Name.Contains(name)).ToListAsync();
     }
 
-    public async Task<List<Vehicle>> GetVehiclesByOwnerIdAsync(int ownerId)
+    public async Task<List<Vehicle>> GetVehiclesByTypeOrClassAsync(string typeOrClass)
     {
-        return await _context.Vehicles.Where(v => v.OwnerId == ownerId).ToListAsync();
+        return await _context.Vehicles.Where(v => v.TypeOrClass.ToString() == typeOrClass).ToListAsync();
     }
 
-    public async Task<Aircraft> CreateVehicleAsync(Aircraft aircraft)
+    public async Task<Vehicle> CreateVehicleAsync(Vehicle vehicle)
     {
         try
         {
-            _context.Vehicles.Add(aircraft);
+            _context.Vehicles.Add(vehicle);
             await _context.SaveChangesAsync();
+            return vehicle;
         }
         catch (DbUpdateException e)
         {
+            // Handle unique constraint violation exceptions
             if (e.InnerException is SqlException sqlException && (sqlException.Number == 2601 || sqlException.Number == 2627))
             {
                 throw new EntryAlreadyExistsException("A vehicle with the same name already exists.");
             }
             throw;
         }
-
-        return aircraft;
-    }
-
-    public async Task<Landcraft> CreateVehicleAsync(Landcraft landcraft)
-    {
-        try
-        {
-            _context.Vehicles.Add(landcraft);
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateException e)
-        {
-            if (e.InnerException is SqlException sqlException && (sqlException.Number == 2601 || sqlException.Number == 2627))
-            {
-                throw new EntryAlreadyExistsException("A vehicle with the same name already exists.");
-            }
-            throw;
-        }
-
-        return landcraft;
-    }
-
-    public async Task<Seacraft> CreateVehicleAsync(Seacraft seacraft)
-    {
-        try
-        {
-            _context.Vehicles.Add(seacraft);
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateException e)
-        {
-            if (e.InnerException is SqlException sqlException && (sqlException.Number == 2601 || sqlException.Number == 2627))
-            {
-                throw new EntryAlreadyExistsException("A vehicle with the same name already exists.");
-            }
-            throw;
-        }
-
-        return seacraft;
     }
 
     public async Task<Vehicle> UpdateVehicleAsync(int id, Vehicle vehicle)
     {
         Vehicle existingVehicle = await GetVehicleByIdAsync(id);
 
-        existingVehicle = vehicle;
-        _context.Entry(existingVehicle).State = EntityState.Modified;
+        _context.Vehicles.Update(existingVehicle);
         await _context.SaveChangesAsync();
 
         return existingVehicle;
@@ -117,6 +130,7 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
 
         _context.Vehicles.Remove(vehicle);
         await _context.SaveChangesAsync();
+
         return vehicle;
     }
 
@@ -127,7 +141,7 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
 
         if (character.Money < vehicle.Price)
         {
-            throw new InsufficientFundsException("The character does not have enough money to purchase the vehicle.");
+            throw new InsufficientFundsException("Character does not have enough money to purchase the vehicle.");
         }
 
         character.OwnedVehicles.Add(vehicle);

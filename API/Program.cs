@@ -33,6 +33,9 @@ builder.Services.AddDbContext<Context>(options => options.UseSqlServer(builder.C
 builder.Services.AddScoped<IBuildingRepository, SQLBuildingRepository>();
 builder.Services.AddScoped<IClothingRepository, SQLClothingRepository>();
 builder.Services.AddScoped<IWeaponRepository, SQLWeaponRepository>();
+builder.Services.AddScoped<IVehicleRepository, SQLVehicleRepository>();
+builder.Services.AddScoped<IPlayerCharacterRepository, SQLPlayerCharacterRepository>();
+builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 
 // Add additional services to the container.
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();

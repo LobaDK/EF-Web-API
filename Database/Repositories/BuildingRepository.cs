@@ -109,8 +109,7 @@ public class SQLBuildingRepository(Context context) : IBuildingRepository
     {
         Building existingBuilding = await GetBuildingByIdAsync(id);
         
-        existingBuilding = building;
-        _context.Entry(existingBuilding).State = EntityState.Modified;
+        _context.Buildings.Update(existingBuilding);
         await _context.SaveChangesAsync();
 
         return existingBuilding;

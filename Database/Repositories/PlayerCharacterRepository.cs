@@ -35,16 +35,16 @@ public interface IPlayerCharacterRepository
     /// <returns>A task that represents the asynchronous operation. The task result contains the created player character.</returns>
     /// <exception cref="EntryAlreadyExistsException">Thrown when a player character with the same name already exists.</exception>
     /// <exception cref="CharacterCreationLimitReachedException">Thrown when the user has reached the character creation limit.</exception>
-    public Task<PlayerCharacter> CreatePlayerCharacterAsync(PlayerCharacter playerCharacter);
+    public Task<PlayerCharacter> CreatePlayerCharacterAsync(string CharacterName, int UserId);
 
     /// <summary>
     /// Asynchronously updates an existing player character.
     /// </summary>
-    /// <param name="id">The ID of the player character to update</param>
-    /// <param name="playerCharacter">The updated player character</param>
+    /// <param name="UserId">The ID of the player character to update</param>
+    /// <param name="CharacterName">The updated player character</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the updated player character.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the player character is not found.</exception>
-    public Task<PlayerCharacter> UpdatePlayerCharacterAsync(int id, PlayerCharacter playerCharacter);
+    public Task<PlayerCharacter> UpdatePlayerCharacterAsync(int UserId, string CharacterName);
 
     /// <summary>
     /// Asynchronously deletes a player character by their ID.
@@ -82,14 +82,22 @@ public class SQLPlayerCharacterRepository(Context context) : IPlayerCharacterRep
         return await _context.PlayerCharacters.FindAsync(id) ?? throw new EntryNotFoundException("The player character was not found.");
     }
 
-    public async Task<PlayerCharacter> CreatePlayerCharacterAsync(PlayerCharacter playerCharacter)
+    public async Task<PlayerCharacter> CreatePlayerCharacterAsync(string CharacterName, int UserId)
     {
-        if (await HasReachedCharacterCreationLimitAsync(playerCharacter.UserId))
+        
+        PlayerCharacter playerCharacter = new()
+        {
+            Name = CharacterName,
+            User = await new SQLUserRepository(_context).GetUserByIdAsync(UserId)
+        };
+
+        if (await HasReachedCharacterCreationLimitAsync(UserId))
         {
             throw new CharacterCreationLimitReachedException("The user has reached the character creation limit.");
         }
         try
         {
+        
             _context.PlayerCharacters.Add(playerCharacter);
             await _context.SaveChangesAsync();
         }
@@ -106,12 +114,11 @@ public class SQLPlayerCharacterRepository(Context context) : IPlayerCharacterRep
         return playerCharacter;
     }
 
-    public async Task<PlayerCharacter> UpdatePlayerCharacterAsync(int id, PlayerCharacter playerCharacter)
+    public async Task<PlayerCharacter> UpdatePlayerCharacterAsync(int UserId, string CharacterName)
     {
-        PlayerCharacter existingPlayerCharacter = await GetPlayerCharacterByIdAsync(id);
+        PlayerCharacter existingPlayerCharacter = await GetPlayerCharacterByIdAsync(UserId);
 
-        existingPlayerCharacter = playerCharacter;
-        _context.Entry(existingPlayerCharacter).State = EntityState.Modified;
+        _context.PlayerCharacters.Update(existingPlayerCharacter);
         await _context.SaveChangesAsync();
 
         return existingPlayerCharacter;

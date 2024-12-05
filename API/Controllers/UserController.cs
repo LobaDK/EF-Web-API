@@ -6,7 +6,6 @@ using Database.Exceptions;
 using Database.Extensions;
 using Database.Models;
 using Database.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

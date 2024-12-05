@@ -120,8 +120,7 @@ public class SQLWeaponRepository(Context context) : IWeaponRepository
     {
         Weapon existingWeapon = await GetWeaponByIdAsync(id);
 
-        existingWeapon = weapon;
-        _context.Entry(existingWeapon).State = EntityState.Modified;
+        _context.Weapons.Update(existingWeapon);
         await _context.SaveChangesAsync();
         
         return existingWeapon;

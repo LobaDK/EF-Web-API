@@ -108,8 +108,7 @@ public class SQLUserRepository(Context context) : IUserRepository
     {
         User existingUser = await GetUserByIdAsync(id);
 
-        existingUser = user;
-        _context.Entry(existingUser).State = EntityState.Modified;
+        _context.Users.Update(user);
         await _context.SaveChangesAsync();
 
         return existingUser;

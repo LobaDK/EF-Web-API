@@ -1,15 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Database.Enums;
 
 namespace Database.Models;
 
-public abstract class Vehicle
+public class Vehicle
 {
     public int Id { get; set; }
 
     [Required]
     [MaxLength(50)]
     public required string Name { get; set; }
+
+    public required VehicleTypeOrClass TypeOrClass { get; set; }
 
     public float TopSpeed { get; set; }
 

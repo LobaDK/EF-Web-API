@@ -1,15 +1,14 @@
-using Database.DTO;
+using API.Mappings;
 using Database.Models;
 
-namespace Database.Extensions;
+namespace API.Extensions;
 
 public static class VehicleExtensions
 {
-    public static VehicleDto ToDto(this Vehicle vehicle)
+    public static Vehicle ToDto(this VehicleCreateRequest vehicle)
     {
-        return new VehicleDto
+        return new Vehicle
         {
-            Id = vehicle.Id,
             Name = vehicle.Name,
             TypeOrClass = vehicle.TypeOrClass,
             TopSpeed = vehicle.TopSpeed,
