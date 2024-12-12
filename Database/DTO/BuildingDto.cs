@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Database.Enums;
 
 namespace Database.DTO;
 
@@ -14,7 +15,7 @@ public class BuildingDto : BaseDto
     
     [Required]
     [MaxLength(30)]
-    public required string Type { get; set; }
+    public required BuildingType Type { get; set; }
 
     [Range(0, 100)]
     public int GarageSpaces { get; set; }

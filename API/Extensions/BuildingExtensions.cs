@@ -12,7 +12,7 @@ public static class BuildingExtensions
         {
             Name = building.Name,
             Address = building.Address,
-            Type = building.Type.ToString(),
+            Type = building.Type,
             GarageSpaces = building.GarageSpaces,
             CharacterLevelRequirement = building.CharacterLevelRequirement,
             Price = building.Price

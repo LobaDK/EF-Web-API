@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Database.Enums;
 
 namespace Database.Models;
 
@@ -20,7 +21,7 @@ public class Clothing
 
     [Required]
     [MaxLength(20)]
-    public required string Type { get; set; }
+    public required ClothingType Type { get; set; }
 
     [Required]
     [MaxLength(20)]

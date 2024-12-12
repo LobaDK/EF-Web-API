@@ -1,4 +1,3 @@
-using System;
 using API.Mappings;
 using Database.Models;
 

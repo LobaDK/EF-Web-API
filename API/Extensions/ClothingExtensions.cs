@@ -11,7 +11,7 @@ public static class ClothingExtensions
         {
             Name = clothing.Name,
             Color = clothing.Color,
-            Type = clothing.Type.ToString(),
+            Type = clothing.Type,
             Gender = clothing.Gender,
             CharacterLevelRequirement = clothing.CharacterLevelRequirement,
             Price = clothing.Price

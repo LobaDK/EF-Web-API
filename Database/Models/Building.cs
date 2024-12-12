@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Database.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database.Models;
@@ -18,7 +19,7 @@ public class Building
 
     [Required]
     [MaxLength(30)]
-    public required string Type { get; set; }
+    public required BuildingType Type { get; set; }
 
     [Range(0, 100)]
     public int GarageSpaces { get; set; } = 0;

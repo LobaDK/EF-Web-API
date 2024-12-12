@@ -60,11 +60,11 @@ namespace API.Controllers
         [HttpPost(Name = "CreatePlayerCharacter")]
         [ProducesResponseType(typeof(PlayerCharacterDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreatePlayerCharacter(PlayerCharacterCreateRequest playerCharacter)
+        public async Task<IActionResult> CreatePlayerCharacter([FromForm] PlayerCharacterCreateRequest playerCharacter)
         {
             try
             {
-                PlayerCharacter newPlayerCharacter = await playerCharacterRepository.CreatePlayerCharacterAsync(playerCharacter.Name, playerCharacter.UserId);
+                PlayerCharacter newPlayerCharacter = await playerCharacterRepository.CreatePlayerCharacterAsync(playerCharacter.ToModel());
                 return CreatedAtRoute("GetPlayerCharacterById", new { Id = newPlayerCharacter.Id }, newPlayerCharacter.ToDto());
             }
             catch (EntryAlreadyExistsException ex)
@@ -81,11 +81,11 @@ namespace API.Controllers
         [MapToApiVersion(1)]
         [HttpPatch("update/{Id}", Name = "UpdatePlayerCharacter")]
         [ProducesResponseType(typeof(PlayerCharacterDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePlayerCharacter(int Id, PlayerCharacterUpdateRequest playerCharacter)
+        public async Task<IActionResult> UpdatePlayerCharacter(int Id, [FromForm] PlayerCharacterUpdateRequest playerCharacter)
         {
             try
             {
-                PlayerCharacter updatedPlayerCharacter = await playerCharacterRepository.UpdatePlayerCharacterAsync(Id, playerCharacter.Name);
+                PlayerCharacter updatedPlayerCharacter = await playerCharacterRepository.UpdatePlayerCharacterAsync(Id, playerCharacter.ToModel());
                 return Ok(updatedPlayerCharacter.ToDto());
             }
             catch (EntryNotFoundException ex)

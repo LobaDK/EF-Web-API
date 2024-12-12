@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Database.Enums;
 
 namespace Database.DTO;
 
@@ -14,7 +15,7 @@ public class ClothingDto : BaseDto
 
     [Required]
     [MaxLength(20)]
-    public required string Type { get; set; }
+    public required ClothingType Type { get; set; }
 
     [Required]
     [MaxLength(20)]

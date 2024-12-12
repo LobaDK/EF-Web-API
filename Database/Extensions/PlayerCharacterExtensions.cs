@@ -14,10 +14,10 @@ public static class PlayerCharacterExtensions
             Name = playerCharacter.Name,
             Experience = playerCharacter.Experience,
             Money = playerCharacter.Money,
-            OwnedBuildings = playerCharacter.OwnedBuildings.Select(building => building.ToDto()).ToList(),
-            OwnedClothing = playerCharacter.OwnedClothing.Select(clothing => clothing.ToDto()).ToList(),
-            OwnedVehicles = playerCharacter.OwnedVehicles.Select(vehicle => vehicle.ToDto()).ToList(),
-            OwnedWeapons = playerCharacter.OwnedWeapons.Select(weapon => weapon.ToDto()).ToList()
+            OwnedBuildingIds = playerCharacter.OwnedBuildings.Select(building => building.Id).ToList(),
+            OwnedClothingIds = playerCharacter.OwnedClothing.Select(clothing => clothing.Id).ToList(),
+            OwnedVehicleIds = playerCharacter.OwnedVehicles.Select(vehicle => vehicle.Id).ToList(),
+            OwnedWeaponIds = playerCharacter.OwnedWeapons.Select(weapon => weapon.Id).ToList()
         };
     }
 }

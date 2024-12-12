@@ -13,7 +13,8 @@ public static class ClothingExtensions
             Name = clothing.Name,
             Color = clothing.Color,
             Type = clothing.Type,
-            Gender = clothing.Gender
+            Gender = clothing.Gender,
+            Price = clothing.Price
         };
     }
 }

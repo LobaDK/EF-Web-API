@@ -4,6 +4,7 @@ using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20241212101245_AddSeedDataForTestingAndValidation")]
+    partial class AddSeedDataForTestingAndValidation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,9 +279,7 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("RegistrationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("date")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("date");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -301,7 +302,7 @@ namespace API.Migrations
                             Id = -1,
                             BirthDate = new DateOnly(1, 1, 1),
                             Email = "admin@test.com",
-                            PasswordHash = "$2a$11$OVKi2NRoeUuDJT8p240rz.1Ug75FarF2jUdrzM8blG2E6u3TAc0n.",
+                            PasswordHash = "$2a$11$i/FhDaald2iEKey9bWrj.u7.GA/Bb9F5knCCV.UaZICJf//cep2FW",
                             RegistrationDate = new DateOnly(1, 1, 1),
                             Username = "admin"
                         },
@@ -310,7 +311,7 @@ namespace API.Migrations
                             Id = -2,
                             BirthDate = new DateOnly(1, 1, 1),
                             Email = "lobadk@test.com",
-                            PasswordHash = "$2a$11$NomYzvDxJDy/PpzYGsAE1eTMsrCoyOZoOm.NZMijmDYaGZhca0Uqi",
+                            PasswordHash = "$2a$11$INNYJ290kpPjNzcN6EJWDeuzqEEFwf/Wv7YvZ6WWu5JOa6j.8840q",
                             RegistrationDate = new DateOnly(1, 1, 1),
                             Username = "LobaDK"
                         });

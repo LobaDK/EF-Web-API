@@ -25,8 +25,7 @@ public class PlayerCharacter
 
     // Navigation properties
     // The user that owns this character
-    [Required]
-    public required User User { get; set; }
+    public User ?User { get; set; }
 
     [ForeignKey(nameof(User))]
     public int UserId { get; set; }

@@ -15,7 +15,6 @@ public class UserCreateRequest
     public required string Email { get; set; }
 
     [Required(ErrorMessage = "A password is required.")]
-    [MaxLength(50)]
     public required string PasswordHash { get; set; }
 
     [Required(ErrorMessage = "A birth date is required.")]

@@ -14,11 +14,11 @@ public class PlayerCharacterDto
 
     public int Money { get; set; }
 
-    public List<BuildingDto> OwnedBuildings { get; set; } = [];
+    public List<int> OwnedBuildingIds { get; set; } = [];
 
-    public List<ClothingDto> OwnedClothing { get; set; } = [];
+    public List<int> OwnedClothingIds { get; set; } = [];
 
-    public List<VehicleDto> OwnedVehicles { get; set; } = [];
+    public List<int> OwnedVehicleIds { get; set; } = [];
 
-    public List<WeaponDto> OwnedWeapons { get; set; } = [];
+    public List<int> OwnedWeaponIds { get; set; } = [];
 }

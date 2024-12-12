@@ -10,6 +10,7 @@ public enum WeaponAttachments
     LaserSight = 1 << 3, // 8
     Flashlight = 1 << 4, // 16
     Grip = 1 << 5, // 32
+    All = Scope | Silencer | ExtendedMagazine | LaserSight | Flashlight | Grip
 }
 
 [Flags]
@@ -22,6 +23,7 @@ public enum AmmoTypes
     Tracer = 1 << 3, // 8
     Explosive = 1 << 4, // 16
     FullMetalJacket = 1 << 5, // 32
+    All = Normal | ArmorPiercing | HollowPoint | Incendiary | Tracer | Explosive | FullMetalJacket
 }
 
 public enum WeaponType

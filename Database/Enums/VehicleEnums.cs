@@ -11,5 +11,8 @@ public enum VehicleTypeOrClass
     Coupe,
     SUV,
     Truck,
-    SportsClassic
+    SportsClassic,
+    Muscle,
+    OffRoad,
+    Motorcycle,
 }

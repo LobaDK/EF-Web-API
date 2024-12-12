@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Database.DTO;
@@ -10,10 +9,6 @@ public class UserDto
     [Required]
     [MaxLength(50)]
     public required string Username { get; set; }
-
-    [Required]
-    [MaxLength(50)]
-    public required string PasswordHash { get; set; }
 
     [Required]
     [MaxLength(100)]
