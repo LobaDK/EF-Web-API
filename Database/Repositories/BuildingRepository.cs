@@ -107,12 +107,11 @@ public class SQLBuildingRepository(Context context) : IBuildingRepository
     
     public async Task<Building> UpdateBuildingAsync(int id, Building building)
     {
-        Building existingBuilding = await GetBuildingByIdAsync(id);
-        
-        _context.Buildings.Update(existingBuilding);
+        building.Id = id;
+        _context.Buildings.Update(building);
         await _context.SaveChangesAsync();
 
-        return existingBuilding;
+        return building;
     }
 
     public async Task<Building> DeleteBuildingAsync(int id)

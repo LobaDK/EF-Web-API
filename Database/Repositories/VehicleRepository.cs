@@ -116,12 +116,12 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
 
     public async Task<Vehicle> UpdateVehicleAsync(int id, Vehicle vehicle)
     {
-        Vehicle existingVehicle = await GetVehicleByIdAsync(id);
 
-        _context.Vehicles.Update(existingVehicle);
+        vehicle.Id = id;
+        _context.Vehicles.Update(vehicle);
         await _context.SaveChangesAsync();
 
-        return existingVehicle;
+        return vehicle;
     }
 
     public async Task<Vehicle> DeleteVehicleAsync(int id)

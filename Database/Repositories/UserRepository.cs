@@ -106,12 +106,11 @@ public class SQLUserRepository(Context context) : IUserRepository
 
     public async Task<User> UpdateUserAsync(int id, User user)
     {
-        User existingUser = await GetUserByIdAsync(id);
-
+        user.Id = id;
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
 
-        return existingUser;
+        return user;
     }
 
     public async Task<User> DeleteUserAsync(int id)

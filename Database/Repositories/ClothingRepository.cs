@@ -118,12 +118,11 @@ public class SQLClothingRepository(Context context) : IClothingRepository
 
     public async Task<Clothing> UpdateClothingAsync(int id, Clothing clothing)
     {
-        Clothing existingClothing = await GetClothingByIdAsync(id);
-        
-        _context.Clothing.Update(existingClothing);
+        clothing.Id = id;
+        _context.Clothing.Update(clothing);
         await _context.SaveChangesAsync();
 
-        return existingClothing;
+        return clothing;
     }
 
     public async Task<Clothing> DeleteClothingAsync(int id)

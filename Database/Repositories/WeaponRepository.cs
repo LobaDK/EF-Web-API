@@ -118,12 +118,11 @@ public class SQLWeaponRepository(Context context) : IWeaponRepository
 
     public async Task<Weapon> UpdateWeaponAsync(int id, Weapon weapon)
     {
-        Weapon existingWeapon = await GetWeaponByIdAsync(id);
-
-        _context.Weapons.Update(existingWeapon);
+        weapon.Id = id;
+        _context.Weapons.Update(weapon);
         await _context.SaveChangesAsync();
         
-        return existingWeapon;
+        return weapon;
     }
 
     public async Task<Weapon> DeleteWeaponAsync(int id)
