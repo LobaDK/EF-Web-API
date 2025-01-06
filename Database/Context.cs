@@ -128,6 +128,7 @@ public class Context(DbContextOptions dbContextOptions) : DbContext(dbContextOpt
                 Id = -3,
                 Name = "Knife",
                 Type = WeaponType.Melee,
+                Damage = 50,
                 MagazineSize = 0,
                 Price = 50}
             );
