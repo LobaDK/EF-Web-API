@@ -1,0 +1,7 @@
+{
+    "/api/v1": {
+      "changeOrigin": true,
+      "target": "http://127.0.0.1:5110",
+      "secure": false
+    }
+  }

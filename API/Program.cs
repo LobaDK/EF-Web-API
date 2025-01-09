@@ -15,6 +15,14 @@ builder.Services.AddControllers()
         options.SerializerSettings.Converters.Add(new StringEnumConverter());
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Localhost", builder => builder
+        .WithOrigins("http://localhost", "https://localhost")
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -58,6 +66,8 @@ builder.Services.AddApiVersioning(options =>
 });
 
 var app = builder.Build();
+
+app.UseCors("Localhost");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
