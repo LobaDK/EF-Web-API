@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BuildingService } from '../service/building.service';
+import { BuildingService } from '../../service/building.service';
 import { HttpClient } from '@angular/common/http';
-import { Building } from '../models/building.model';
+import { Building } from '../../models/building.model';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-building',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgFor],
   providers: [BuildingService],
   templateUrl: './building.component.html',
   styleUrl: './building.component.css'
@@ -24,6 +25,5 @@ export class BuildingComponent implements OnInit {
         console.log(this.buildings);
       }
     )
-  
   }
 }

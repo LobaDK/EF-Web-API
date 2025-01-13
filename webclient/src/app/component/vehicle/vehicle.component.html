@@ -1,0 +1,28 @@
+<div class="table-container">
+    <table class="table table-dark">
+      <thead class="table-header table-header-dark">
+        <tr>
+          <th scope="col" class="table-cell">Name</th>
+          <th scope="col" class="table-cell">Type or Class</th>
+          <th scope="col" class="table-cell">Top Speed</th>
+          <th scope="col" class="table-cell">Max Occupants</th>
+          <th scope="col" class="table-cell">Level Requirement</th>
+          <th scope="col" class="table-cell">Price</th>
+          <th scope="col" class="table-cell">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="table-row table-row-dark table-row-even table-row-even-dark" *ngFor="let vehicle of vehicles">
+          <td class="table-cell">{{ vehicle.name }}</td>
+          <td class="table-cell">{{ vehicle.typeOrClass }}</td>
+          <td class="table-cell">{{ vehicle.topSpeed }}</td>
+          <td class="table-cell">{{ vehicle.maxOccupants }}</td>
+          <td class="table-cell">{{ vehicle.characterLevelRequirement }}</td>
+          <td class="table-cell">{{ vehicle.price }}</td>
+          <td class="table-cell">
+            <button type="button" class="button">Purchase</button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

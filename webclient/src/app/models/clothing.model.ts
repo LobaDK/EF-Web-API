@@ -1,8 +1,8 @@
-export interface Building {
+export interface Clothing {
     name: string | undefined;
-    address: string | undefined;
+    color: string | undefined;
     type: string | undefined;
-    garageSpaces: number | undefined;
+    gender: string | undefined;
     characterLevelRequirement: number | undefined;
     price: number | undefined;
 }

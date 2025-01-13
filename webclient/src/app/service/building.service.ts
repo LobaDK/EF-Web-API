@@ -8,14 +8,10 @@ import { Building } from '../models/building.model';
 })
 export class BuildingService {
 
-  url = 'http://localhost:4200/api/v1/Buildings';
+  url: string = 'http://localhost:4200/api/v1/Buildings';
 
   getall():Observable<Building[]>{
     return this.http.get<Building[]>(this.url);
-  }
-
-  get(id:number):Observable<Building>{
-    return this.http.get<Building>(this.url+'/getById/'+id);
   }
 
   constructor(private http:HttpClient) { }

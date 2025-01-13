@@ -1,0 +1,28 @@
+<div class="table-container">
+    <table class="table table-dark">
+      <thead class="table-header table-header-dark">
+        <tr>
+          <th scope="col" class="table-cell">Name</th>
+          <th scope="col" class="table-cell">Color</th>
+          <th scope="col" class="table-cell">Type</th>
+          <th scope="col" class="table-cell">Gender</th>
+          <th scope="col" class="table-cell">Level Requirement</th>
+          <th scope="col" class="table-cell">Price</th>
+          <th scope="col" class="table-cell">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="table-row table-row-dark table-row-even table-row-even-dark" *ngFor="let clothing of clothings">
+          <td class="table-cell">{{ clothing.name }}</td>
+          <td class="table-cell">{{ clothing.color }}</td>
+          <td class="table-cell">{{ clothing.type }}</td>
+          <td class="table-cell">{{ clothing.gender }}</td>
+          <td class="table-cell">{{ clothing.characterLevelRequirement }}</td>
+          <td class="table-cell">{{ clothing.price }}</td>
+          <td class="table-cell">
+            <button type="button" class="button">Purchase</button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
