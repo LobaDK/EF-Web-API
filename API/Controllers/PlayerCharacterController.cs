@@ -55,9 +55,9 @@ namespace API.Controllers
             return Ok(playerCharacters.Select(pc => pc.ToDto()));
         }
 
-        // POST: api/PlayerCharacter
+        // POST: api/PlayerCharacter/create
         [MapToApiVersion(1)]
-        [HttpPost(Name = "CreatePlayerCharacter")]
+        [HttpPost("create", Name = "CreatePlayerCharacter")]
         [ProducesResponseType(typeof(PlayerCharacterDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreatePlayerCharacter([FromForm] PlayerCharacterCreateRequest playerCharacter)
