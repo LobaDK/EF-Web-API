@@ -120,5 +120,27 @@ namespace API.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        // POST: api/Vehicle/buy
+        [MapToApiVersion(1)]
+        [HttpPost("buy/{id}", Name = "BuyVehicle")]
+        [ProducesResponseType(typeof(VehicleDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> BuyVehicle(int id, [FromForm] int characterId)
+        {
+            try
+            {
+                (Vehicle vehicle, PlayerCharacter character) = await vehicleRepository.PurchaseVehicleAsync(id, characterId);
+                return Ok(new VehiclePurchaseResponse { Vehicle = vehicle.ToDto(), Character = character.ToDto() });
+            }
+            catch (EntryNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InsufficientFundsException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

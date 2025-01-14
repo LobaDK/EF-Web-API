@@ -67,22 +67,30 @@ public class SQLUserRepository(Context context) : IUserRepository
 
     public async Task<List<User>> GetUsersAsync()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users
+        .Include(u => u.PlayerCharacters)
+        .ToListAsync();
     }
 
     public async Task<User> GetUserByIdAsync(int id)
     {
-        return await _context.Users.FindAsync(id) ?? throw new EntryNotFoundException($"User with ID {id} not found.");
+        return await _context.Users
+        .Include(u => u.PlayerCharacters)
+        .FirstOrDefaultAsync(u => u.Id == id) ?? throw new EntryNotFoundException($"User with ID {id} not found.");
     }
 
     public async Task<List<User>> GetUserByUsernameAsync(string username)
     {
-        return await _context.Users.Where(u => u.Username.Contains(username)).ToListAsync();
+        return await _context.Users.Where(u => u.Username.Contains(username))
+        .Include(u => u.PlayerCharacters)
+        .ToListAsync();
     }
 
     public async Task<List<User>> GetUserByEmailAsync(string email)
     {
-        return await _context.Users.Where(u => u.Email.Contains(email)).ToListAsync();
+        return await _context.Users.Where(u => u.Email.Contains(email))
+        .Include(u => u.PlayerCharacters)
+        .ToListAsync();
     }
 
     public async Task<User> CreateUserAsync(User user)

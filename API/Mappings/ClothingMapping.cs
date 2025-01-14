@@ -37,6 +37,5 @@ public class ClothingPurchaseResponse
     /// <summary>
     /// The character that purchased the clothing.
     /// </summary>
-    // TODO: Change to PlayerCharacterDto once implemented.
-    public required PlayerCharacter Character { get; set; }
+    public required PlayerCharacterDto Character { get; set; }
 }

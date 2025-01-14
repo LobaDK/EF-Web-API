@@ -35,7 +35,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 // Add the database context to the container.
-builder.Services.AddDbContext<Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings"), b => b.MigrationsAssembly("API")));
+builder.Services.AddDbContext<Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("API")));
 
 // Add repositories to the container.
 builder.Services.AddScoped<IBuildingRepository, SQLBuildingRepository>();

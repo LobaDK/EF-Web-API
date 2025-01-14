@@ -15,13 +15,13 @@ public class PlayerCharacter
 
     public int Money { get; set; }
 
-    public List<Building> OwnedBuildings { get; set; } = [];
+    public List<Building>? OwnedBuildings { get; set; }
 
-    public List<Clothing> OwnedClothing { get; set; } = [];
+    public List<Clothing>? OwnedClothing { get; set; }
 
-    public List<Vehicle> OwnedVehicles { get; set; } = [];
+    public List<Vehicle>? OwnedVehicles { get; set; }
 
-    public List<Weapon> OwnedWeapons { get; set; } = [];
+    public List<Weapon>? OwnedWeapons { get; set; }
 
     // Navigation properties
     // The user that owns this character

@@ -1,6 +1,26 @@
 {
     "configurations": [
         {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "dotnet: build",
+            "program": "${workspaceFolder}/API/bin/Debug/net8.0/API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "Launch Chrome with ng serve",
             "type": "chrome",
             "request": "launch",
@@ -29,6 +49,7 @@
             "program": "${workspaceFolder}/API/bin/Debug/net8.0/API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/API",
+            "preLaunchTask": "dotnet: build",
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"

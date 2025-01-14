@@ -68,7 +68,7 @@ public interface IVehicleRepository
     /// <param name="ownerId">The ID of the character purchasing the vehicle.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the purchased <see cref="Vehicle"/> object.</returns>
     /// <exception cref="EntryNotFoundException">Thrown when the vehicle is not found.</exception>
-    public Task<Vehicle> PurchaseVehicleAsync(int id, int ownerId);
+    public Task<(Vehicle, PlayerCharacter)> PurchaseVehicleAsync(int id, int ownerId);
 }
 
 public class SQLVehicleRepository(Context context) : IVehicleRepository
@@ -77,22 +77,30 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
 
     public async Task<List<Vehicle>> GetVehiclesAsync()
     {
-        return await _context.Vehicles.ToListAsync();
+        return await _context.Vehicles
+        .Include(v => v.Owners)
+        .ToListAsync();
     }
 
     public async Task<Vehicle> GetVehicleByIdAsync(int id)
     {
-        return await _context.Vehicles.FindAsync(id) ?? throw new EntryNotFoundException($"Vehicle with ID {id} was not found.");
+        return await _context.Vehicles
+        .Include(v => v.Owners)
+        .FirstOrDefaultAsync(v => v.Id == id) ?? throw new EntryNotFoundException($"Vehicle with ID {id} was not found.");
     }
 
     public async Task<List<Vehicle>> GetVehiclesByNameAsync(string name)
     {
-        return await _context.Vehicles.Where(v => v.Name.Contains(name)).ToListAsync();
+        return await _context.Vehicles.Where(v => v.Name.Contains(name))
+        .Include(v => v.Owners)
+        .ToListAsync();
     }
 
     public async Task<List<Vehicle>> GetVehiclesByTypeOrClassAsync(string typeOrClass)
     {
-        return await _context.Vehicles.Where(v => v.TypeOrClass.ToString() == typeOrClass).ToListAsync();
+        return await _context.Vehicles.Where(v => v.TypeOrClass.ToString() == typeOrClass)
+        .Include(v => v.Owners)
+        .ToListAsync();
     }
 
     public async Task<Vehicle> CreateVehicleAsync(Vehicle vehicle)
@@ -134,7 +142,7 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
         return vehicle;
     }
 
-    public async Task<Vehicle> PurchaseVehicleAsync(int id, int characterId)
+    public async Task<(Vehicle, PlayerCharacter)> PurchaseVehicleAsync(int id, int characterId)
     {
         Vehicle vehicle = await GetVehicleByIdAsync(id);
         PlayerCharacter character = await new SQLPlayerCharacterRepository(_context).GetPlayerCharacterByIdAsync(characterId);
@@ -144,10 +152,11 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
             throw new InsufficientFundsException("Character does not have enough money to purchase the vehicle.");
         }
 
+        character.OwnedVehicles ??= [];
         character.OwnedVehicles.Add(vehicle);
-        character.Money -= vehicle.Price;
         await _context.SaveChangesAsync();
+        character.Money -= vehicle.Price;
 
-        return vehicle;
+        return (vehicle, character);
     }
 }

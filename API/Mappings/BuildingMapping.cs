@@ -46,6 +46,5 @@ public class BuildingPurchaseResponse
     /// <summary>
     /// The character that purchased the building.
     /// </summary>
-    // TODO: Change to PlayerCharacterDto once implemented.
-    public required PlayerCharacter Character { get; set; }
+    public required PlayerCharacterDto Character { get; set; }
 }

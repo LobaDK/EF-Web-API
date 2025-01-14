@@ -10,8 +10,12 @@ export class GenericService<T> {
 
   url: string = 'http://localhost:4200/api/v1/';
 
-  getall(endpoint: Endpoints):Observable<T[]>{
+  getAll(endpoint: Endpoints):Observable<T[]>{
     return this.http.get<T[]>(this.url+endpoint)
+  }
+
+  add(endpoint: Endpoints, data: T):Observable<T>{
+    return this.http.post<T>(this.url+endpoint+"/create", data)
   }
 
   constructor(private http:HttpClient) { }

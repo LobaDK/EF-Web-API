@@ -19,7 +19,7 @@ export class VehicleComponent implements OnInit{
   vehicles: Vehicle[] = []
 
   ngOnInit(): void {
-    this.service.getall(Endpoints.Vehicle).subscribe(
+    this.service.getAll(Endpoints.Vehicle).subscribe(
       data => {
         this.vehicles = data;
         console.log(this.vehicles)

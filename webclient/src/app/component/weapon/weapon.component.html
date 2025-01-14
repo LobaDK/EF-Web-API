@@ -19,7 +19,9 @@
         <th scope="col" class="table-cell">Supported Attachments</th>
         <th scope="col" class="table-cell">Level Requirement</th>
         <th scope="col" class="table-cell">Price</th>
-        <th scope="col" class="table-cell">Action</th>
+        <th scope="col" class="table-cell">
+          <button type="button" class="button" (click)="addWeapon()">Add</button>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -41,4 +43,70 @@
       </tr>
     </tbody>
   </table>
+
+  <!-- Form displayed as an overlay -->
+  <div *ngIf="isFormVisible" class="overlay">
+    <div class="overlay-content">
+      <button class="close-button" (click)="closeForm()">&times;</button>
+      <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new weapon</h2>
+      <form [formGroup]="weaponForm" (ngSubmit)="onSubmit()">
+        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+          <div class="sm:col-span-2">
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Weapon Name</label>
+            <input type="text" id="name" formControlName="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type weapon name" required>
+          </div>
+          <div class="w-full">
+            <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+            <select id="type" formControlName="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+              <option *ngFor="let type of weaponTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          <div class="w-full">
+            <label for="damage" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Damage</label>
+            <input type="number" id="damage" formControlName="damage" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+          </div>
+          <div class="w-full">
+            <label for="rangeInMeters" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Range in Meters</label>
+            <input type="number" id="rangeInMeters" formControlName="rangeInMeters" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+          </div>
+          <div class="w-full">
+            <label for="magazineSize" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Magazine Size</label>
+            <input type="number" id="magazineSize" formControlName="magazineSize" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+          </div>
+          <div class="w-full">
+            <label for="fireRate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fire Rate</label>
+            <input type="number" id="fireRate" formControlName="fireRate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+          </div>
+          <div class="w-full">
+            <label for="reloadTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reload Time</label>
+            <input type="number" id="reloadTime" formControlName="reloadTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+          </div>
+          <div class="w-full">
+            <label for="supportedAmmoTypes" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Supported Ammo Types</label>
+            <select id="supportedAmmoTypes" formControlName="supportedAmmoTypes" multiple class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+              <option *ngFor="let ammoType of ammoTypes" [value]="ammoType">{{ ammoType }}</option>
+            </select>
+          </div>
+          <div class="w-full">
+            <label for="supportedAttachments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Supported Attachments</label>
+            <select id="supportedAttachments" formControlName="supportedAttachments" multiple class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+              <option *ngFor="let attachment of attachments" [value]="attachment">{{ attachment }}</option>
+            </select>
+          </div>
+          <div class="w-full">
+            <label for="characterLevelRequirement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Level Requirement</label>
+            <input type="number" id="characterLevelRequirement" formControlName="characterLevelRequirement" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+          </div>
+          <div class="w-full">
+            <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+            <input type="number" id="price" formControlName="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit" class="button">Add Weapon</button>
+            <button type="button" class="button" (click)="closeForm()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

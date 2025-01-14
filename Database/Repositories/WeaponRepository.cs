@@ -79,22 +79,30 @@ public class SQLWeaponRepository(Context context) : IWeaponRepository
 
     public async Task<List<Weapon>> GetWeaponsAsync()
     {
-        return await _context.Weapons.ToListAsync();
+        return await _context.Weapons
+        .Include(w => w.Owners)
+        .ToListAsync();
     }
 
     public async Task<Weapon> GetWeaponByIdAsync(int id)
     {
-        return await _context.Weapons.FindAsync(id) ?? throw new EntryNotFoundException("Weapon not found.");
+        return await _context.Weapons
+        .Include(w => w.Owners)
+        .FirstOrDefaultAsync(w => w.Id == id) ?? throw new EntryNotFoundException("Weapon not found.");
     }
 
     public async Task<Weapon> GetWeaponByNameAsync(string name)
     {
-        return await _context.Weapons.FirstOrDefaultAsync(w => w.Name == name) ?? throw new EntryNotFoundException("Weapon not found.");
+        return await _context.Weapons
+        .Include(w => w.Owners)
+        .FirstOrDefaultAsync(w => w.Name == name) ?? throw new EntryNotFoundException("Weapon not found.");
     }
 
     public async Task<List<Weapon>> GetWeaponsByTypeAsync(string type)
     {
-        return await _context.Weapons.Where(w => w.Type.ToString() == type).ToListAsync();
+        return await _context.Weapons.Where(w => w.Type.ToString() == type)
+        .Include(w => w.Owners)
+        .ToListAsync();
     }
 
     public async Task<Weapon> CreateWeaponAsync(Weapon weapon)
@@ -143,9 +151,10 @@ public class SQLWeaponRepository(Context context) : IWeaponRepository
             throw new InsufficientFundsException("Character does not have enough money to purchase the weapon.");
         }
 
-        character.Money -= weapon.Price;
+        character.OwnedWeapons ??= [];
         character.OwnedWeapons.Add(weapon);
         await _context.SaveChangesAsync();
+        character.Money -= weapon.Price;
 
         return (weapon, character);
     }

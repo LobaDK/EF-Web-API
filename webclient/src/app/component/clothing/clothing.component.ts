@@ -19,7 +19,7 @@ export class ClothingComponent implements OnInit {
   clothings: Clothing[] = []
 
   ngOnInit(): void {
-    this.service.getall(Endpoints.Clothing).subscribe(
+    this.service.getAll(Endpoints.Clothing).subscribe(
       data => {
         this.clothings = data;
         console.log(this.clothings)

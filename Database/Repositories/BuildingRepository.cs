@@ -72,17 +72,23 @@ public class SQLBuildingRepository(Context context) : IBuildingRepository
     
     public async Task<List<Building>> GetBuildingsAsync()
     {
-        return await _context.Buildings.ToListAsync();
+        return await _context.Buildings
+        .Include(b => b.Owners)
+        .ToListAsync();
     }
 
     public async Task<Building> GetBuildingByIdAsync(int id)
     {
-        return await _context.Buildings.FindAsync(id) ?? throw new EntryNotFoundException("Building not found.");
+        return await _context.Buildings
+        .Include(b => b.Owners)
+        .FirstOrDefaultAsync(b => b.Id == id) ?? throw new EntryNotFoundException("Building not found.");
     }
 
     public async Task<Building> GetBuildingByNameAsync(string name)
     {
-        return await _context.Buildings.Where(b => b.Name == name).FirstOrDefaultAsync() ?? throw new EntryNotFoundException("Building not found.");
+        return await _context.Buildings.Where(b => b.Name == name)
+        .Include(b => b.Owners)
+        .FirstOrDefaultAsync() ?? throw new EntryNotFoundException("Building not found.");
     }
 
     public async Task<Building> CreateBuildingAsync(Building building)
@@ -134,9 +140,10 @@ public class SQLBuildingRepository(Context context) : IBuildingRepository
             throw new InsufficientFundsException("Character does not have enough money to purchase the building.");
         }
 
+        character.OwnedBuildings ??= [];
         character.OwnedBuildings.Add(building);
-        character.Money -= building.Price;
         await _context.SaveChangesAsync();
+        character.Money -= building.Price;
 
         return (building, character);
     }

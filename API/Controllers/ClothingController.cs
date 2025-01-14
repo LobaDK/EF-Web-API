@@ -137,7 +137,7 @@ namespace API.Controllers
             try
             {
                 (Clothing clothing, PlayerCharacter character) = await clothingRepository.PurchaseClothingAsync(id, characterId);
-                return Ok(new ClothingPurchaseResponse { Clothing = clothing.ToDto(), Character = character });
+                return Ok(new ClothingPurchaseResponse { Clothing = clothing.ToDto(), Character = character.ToDto() });
             }
             catch (EntryNotFoundException ex)
             {

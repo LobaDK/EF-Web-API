@@ -126,7 +126,7 @@ namespace API.Controllers
             try
             {
                 (Building building, PlayerCharacter character) = await buildingRepository.PurchaseBuildingAsync(id, characterId);
-                return Ok(new BuildingPurchaseResponse { Building = building.ToDto(), Character = character });
+                return Ok(new BuildingPurchaseResponse { Building = building.ToDto(), Character = character.ToDto() });
             }
             catch (EntryNotFoundException ex)
             {

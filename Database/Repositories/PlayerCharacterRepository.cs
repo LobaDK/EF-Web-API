@@ -69,17 +69,35 @@ public class SQLPlayerCharacterRepository(Context context) : IPlayerCharacterRep
 
     public async Task<List<PlayerCharacter>> GetPlayerCharactersAsync()
     {
-        return await _context.PlayerCharacters.ToListAsync();
+        return await _context.PlayerCharacters
+            .Include(pc => pc.OwnedBuildings)
+            .Include(pc => pc.OwnedClothing)
+            .Include(pc => pc.OwnedVehicles)
+            .Include(pc => pc.OwnedWeapons)
+            .Include(pc => pc.User)
+            .ToListAsync();
     }
 
     public async Task<List<PlayerCharacter>> GetPlayerCharactersByUserIdAsync(int userId)
     {
-        return await _context.PlayerCharacters.Where(pc => pc.UserId == userId).ToListAsync();
+        return await _context.PlayerCharacters.Where(pc => pc.UserId == userId)
+            .Include(pc => pc.OwnedBuildings)
+            .Include(pc => pc.OwnedClothing)
+            .Include(pc => pc.OwnedVehicles)
+            .Include(pc => pc.OwnedWeapons)
+            .Include(pc => pc.User)
+            .ToListAsync();
     }
 
     public async Task<PlayerCharacter> GetPlayerCharacterByIdAsync(int id)
     {
-        return await _context.PlayerCharacters.FindAsync(id) ?? throw new EntryNotFoundException("The player character was not found.");
+        return await _context.PlayerCharacters
+            .Include(pc => pc.OwnedBuildings)
+            .Include(pc => pc.OwnedClothing)
+            .Include(pc => pc.OwnedVehicles)
+            .Include(pc => pc.OwnedWeapons)
+            .Include(pc => pc.User)
+            .FirstOrDefaultAsync(pc => pc.Id == id) ?? throw new EntryNotFoundException("The player character was not found.");
     }
 
     public async Task<PlayerCharacter> CreatePlayerCharacterAsync(PlayerCharacter playerCharacter)

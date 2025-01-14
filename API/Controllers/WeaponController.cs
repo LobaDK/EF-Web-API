@@ -127,7 +127,7 @@ namespace API.Controllers
             try
             {
                 (Weapon weapon, PlayerCharacter character) = await weaponRepository.PurchaseWeaponAsync(id, characterId);
-                return Ok(new WeaponPurchaseResponse { Weapon = weapon.ToDto(), Character = character });
+                return Ok(new WeaponPurchaseResponse { Weapon = weapon.ToDto(), Character = character.ToDto() });
             }
             catch (EntryNotFoundException ex)
             {

@@ -78,22 +78,30 @@ public class SQLClothingRepository(Context context) : IClothingRepository
 
     public async Task<List<Clothing>> GetClothingAsync()
     {
-        return await _context.Clothing.ToListAsync();
+        return await _context.Clothing
+        .Include(c => c.Owners)
+        .ToListAsync();
     }
 
     public async Task<Clothing> GetClothingByIdAsync(int id)
     {
-        return await _context.Clothing.FindAsync(id) ?? throw new EntryNotFoundException("Clothing item not found.");
+        return await _context.Clothing
+        .Include(c => c.Owners)
+        .FirstOrDefaultAsync(c => c.Id == id) ?? throw new EntryNotFoundException("Clothing item not found.");
     }
 
     public async Task<Clothing> GetClothingByNameAsync(string name)
     {
-        return await _context.Clothing.Where(c => c.Name == name).FirstOrDefaultAsync() ?? throw new EntryNotFoundException("Clothing item not found.");
+        return await _context.Clothing.Where(c => c.Name == name)
+        .Include(c => c.Owners)
+        .FirstOrDefaultAsync() ?? throw new EntryNotFoundException("Clothing item not found.");
     }
 
     public async Task<List<Clothing>> GetClothingsByColorAsync(string color)
     {
-        return await _context.Clothing.Where(c => c.Color == color).ToListAsync();
+        return await _context.Clothing.Where(c => c.Color == color)
+        .Include(c => c.Owners)
+        .ToListAsync();
     }
 
     public async Task<Clothing> CreateClothingAsync(Clothing clothing)
@@ -144,9 +152,10 @@ public class SQLClothingRepository(Context context) : IClothingRepository
             throw new InsufficientFundsException("Character does not have enough money to purchase this item.");
         }
 
+        character.OwnedClothing ??= [];
         character.OwnedClothing.Add(clothing);
-        character.Money -= clothing.Price;
         await _context.SaveChangesAsync();
+        character.Money -= clothing.Price;
 
         return (clothing, character);
     }

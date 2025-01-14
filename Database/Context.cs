@@ -177,11 +177,21 @@ public class Context(DbContextOptions dbContextOptions) : DbContext(dbContextOpt
             new PlayerCharacter {
                 Id = -1,
                 Name = "John Doe",
-                UserId = -1},
+                UserId = -1,
+                OwnedBuildings = [],
+                OwnedClothing = [],
+                OwnedVehicles = [],
+                OwnedWeapons = []
+                },
             new PlayerCharacter {
                 Id = -2,
                 Name = "Jane Doe",
-                UserId = -2}
+                UserId = -2,
+                OwnedBuildings = [],
+                OwnedClothing = [],
+                OwnedVehicles = [],
+                OwnedWeapons = []
+                }
             );
     }
 
