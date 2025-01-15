@@ -122,7 +122,7 @@ public class Context(DbContextOptions dbContextOptions) : DbContext(dbContextOpt
                 FireRate = 600,
                 ReloadTime = 2.5f,
                 SupportedAmmoTypes = AmmoTypes.Normal | AmmoTypes.ArmorPiercing | AmmoTypes.HollowPoint | AmmoTypes.Tracer | AmmoTypes.Incendiary | AmmoTypes.FullMetalJacket,
-                SupportedAttachments = WeaponAttachments.All,
+                SupportedAttachments = WeaponAttachments.Scope | WeaponAttachments.Silencer | WeaponAttachments.ExtendedMagazine | WeaponAttachments.LaserSight | WeaponAttachments.Flashlight | WeaponAttachments.Grip,
                 Price = 1_000},
             new Weapon {
                 Id = -3,
