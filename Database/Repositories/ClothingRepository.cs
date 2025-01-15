@@ -154,8 +154,8 @@ public class SQLClothingRepository(Context context) : IClothingRepository
 
         character.OwnedClothing ??= [];
         character.OwnedClothing.Add(clothing);
-        await _context.SaveChangesAsync();
         character.Money -= clothing.Price;
+        await _context.SaveChangesAsync();
 
         return (clothing, character);
     }

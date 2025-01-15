@@ -154,8 +154,8 @@ public class SQLVehicleRepository(Context context) : IVehicleRepository
 
         character.OwnedVehicles ??= [];
         character.OwnedVehicles.Add(vehicle);
-        await _context.SaveChangesAsync();
         character.Money -= vehicle.Price;
+        await _context.SaveChangesAsync();
 
         return (vehicle, character);
     }

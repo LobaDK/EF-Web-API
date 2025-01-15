@@ -153,8 +153,8 @@ public class SQLWeaponRepository(Context context) : IWeaponRepository
 
         character.OwnedWeapons ??= [];
         character.OwnedWeapons.Add(weapon);
-        await _context.SaveChangesAsync();
         character.Money -= weapon.Price;
+        await _context.SaveChangesAsync();
 
         return (weapon, character);
     }

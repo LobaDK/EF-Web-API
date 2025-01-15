@@ -142,8 +142,8 @@ public class SQLBuildingRepository(Context context) : IBuildingRepository
 
         character.OwnedBuildings ??= [];
         character.OwnedBuildings.Add(building);
-        await _context.SaveChangesAsync();
         character.Money -= building.Price;
+        await _context.SaveChangesAsync();
 
         return (building, character);
     }
