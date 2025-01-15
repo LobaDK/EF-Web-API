@@ -70,20 +70,81 @@
     outline: none;
 }
 
-button:hover {
+.close-button {
+    color: #ffffff;
+    background: linear-gradient(to right, #f63b3b, #eb2525, #d81d1d);
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+    text-align: center;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    outline: none;
+  }
+
+  .close-button:hover {
+    background: linear-gradient(to bottom right, #f63b3b, #f63b3b, #f63b3b);
+}
+
+.close-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px #fda4af;
+}
+
+.button:hover {
     background: linear-gradient(to bottom right, #1d4ed8, #1d4ed8, #1d4ed8);
 }
 
-button:focus {
+.button:focus {
     outline: none;
     box-shadow: 0 0 0 4px #93c5fd;
 }
 
-@media (prefers-color-scheme: dark) {
-    button:focus {
-        outline: none;
-        box-shadow: 0 0 0 4px #1e40af;
-    }
+.purchase-button {
+    color: #ffffff;
+    background: linear-gradient(to right, #10b981, #059669, #047857);
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+    text-align: center;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    outline: none;
+}
+
+.purchase-button:hover {
+    background: linear-gradient(to bottom right, #047857, #047857, #047857);
+}
+
+.purchase-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px #6ee7b7;
+}
+
+.purchased-button {
+    color: #ffffff;
+    background: #a0aec0; /* Greyed-out background */
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+    text-align: center;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    outline: none;
+    cursor: not-allowed; /* Indicate that the button is not clickable */
+    pointer-events: none; /* Disable all pointer events */
+}
+
+.purchased-button:hover {
+    background: #a0aec0; /* Keep the same greyed-out background on hover */
+}
+
+.purchased-button:focus {
+    outline: none;
+    box-shadow: none; /* Remove focus shadow */
 }
 
 .loading-spinner {
@@ -108,4 +169,54 @@ button:focus {
     color: #721c24;
     font-size: 1.25rem;
     text-align: center;
+}
+
+.overlay {
+    position: fixed; /* Fixed positioning to overlay the entire page */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* High z-index to ensure it appears above other content */
+  }
+  
+.overlay-content {
+    background-color: #374151;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+.character-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.character-selector button {
+    background-color: #4a5568; /* Dark gray background */
+    color: #fff; /* White text */
+    border: 1px solid #2d3748; /* Slightly darker border */
+    border-radius: 0.25rem; /* Rounded corners */
+    padding: 0.5rem 1rem; /* Padding */
+    margin: 0.5rem 0; /* Margin between buttons */
+    font-size: 1rem; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.character-selector button:hover {
+    background-color: #2d3748; /* Darker background on hover */
+}
+
+.character-selector button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.6); /* Custom focus outline */
 }

@@ -1,15 +1,16 @@
 import { ammoTypes, supportedAttachments, weaponTypes } from "../enum/weapon";
 
 export interface weapon {
+    id: number;
     name: string | undefined;
     type: weaponTypes | undefined;
-    damage: number | undefined;
-    rangeInMeters: number | undefined;
-    magazineSize: number | undefined;
-    fireRate: number | undefined;
-    reloadTime: number | undefined;
+    damage: number;
+    rangeInMeters: number;
+    magazineSize: number;
+    fireRate: number;
+    reloadTime: number;
     supportedAmmoTypes: ammoTypes[] | undefined;
     supportedAttachments: supportedAttachments[] | undefined;
-    characterLevelRequirement: number | undefined;
-    price: number | undefined;
+    characterLevelRequirement: number;
+    price: number;
 }

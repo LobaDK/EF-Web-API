@@ -1,8 +1,9 @@
 export interface Vehicle {
+    id: number;
     name: string | undefined;
     typeOrClass: string | undefined;
-    topSpeed: number | undefined;
-    maxOccupants: number | undefined;
-    characterLevelRequirement: number | undefined;
-    price: number | undefined;
+    topSpeed: number;
+    maxOccupants: number;
+    characterLevelRequirement: number;
+    price: number;
 }

@@ -1,0 +1,6 @@
+<div class="character-selector">
+    <p>Please select a character:</p>
+    <button *ngFor="let character of characters" (click)="selectCharacter(character)">
+      {{ character.name }}
+    </button>
+  </div>

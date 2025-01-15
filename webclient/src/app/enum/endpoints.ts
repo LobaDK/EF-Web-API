@@ -3,4 +3,5 @@ export enum Endpoints {
     Clothing = "Clothing",
     Vehicle = "Vehicle",
     Weapon = "Weapon",
+    PlayerCharacter = "PlayerCharacter",
 }
