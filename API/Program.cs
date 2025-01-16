@@ -4,6 +4,8 @@ using Database.Repositories;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +68,17 @@ builder.Services.AddApiVersioning(options =>
 });
 
 var app = builder.Build();
+
+// Ensure the database exists and is created if it doesn't.
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider services = scope.ServiceProvider;
+    Context context = services.GetRequiredService<Context>();
+    if (context.Database.GetService<IDatabaseCreator>() is RelationalDatabaseCreator databaseCreator && !databaseCreator.Exists())
+    {
+        context.Database.EnsureCreated();
+    }
+}
 
 app.UseCors("Localhost");
 
