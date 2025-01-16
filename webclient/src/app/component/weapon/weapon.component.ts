@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { GenericService } from '../../service/generic.service';
 import { weapon } from '../../models/weapon.model';
 import { Endpoints } from '../../enum/endpoints';
@@ -18,6 +18,8 @@ import { CharacterComponent } from '../character/character.component';
   styleUrl: './weapon.component.css'
 })
 export class WeaponComponent implements OnInit {
+  private service = inject(GenericService<weapon>)
+  private characterService = inject(CharacterService)
   weapons: weapon[] = []
   isLoading: boolean = false;
   fetchErrorMessage: string | null = null;
@@ -27,8 +29,6 @@ export class WeaponComponent implements OnInit {
   selectedCharacter: Character | null = null;
   updateWeaponId: number | null = null;
   
-  constructor(private service:GenericService<weapon>, private characterService: CharacterService) {}
-
   /**
    * Initializes the component by fetching the list of weapons.
    */
@@ -174,6 +174,7 @@ export class WeaponComponent implements OnInit {
       next: (data) => {
         this.weapons = data;
         this.isLoading = false;
+        console.log(data);
       },
       error: (error) => {
         this.fetchErrorMessage = error.message;
